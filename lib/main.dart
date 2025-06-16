@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:namaz_vakitleri_app/home_screen.dart';
-import 'package:workmanager/workmanager.dart';
-import 'background_task.dart';
+import 'home_screen.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-  await Workmanager().registerPeriodicTask(
-    "1", // benzersiz ID
-    fetchPrayerTask,
-    frequency: const Duration(hours: 1),
-    initialDelay: const Duration(minutes: 1),
-    constraints: Constraints(networkType: NetworkType.connected),
-  );
-  runApp(const HomeScreen());
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Namaz Vakitleri',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const HomeScreen(), // Scaffold buradan başlatılır
+    );
+  }
 }
