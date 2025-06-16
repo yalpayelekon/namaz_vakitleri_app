@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 import 'prayer_times.dart';
 
@@ -45,7 +46,10 @@ class PrayerService {
       final Map<String, dynamic> data = json.decode(response.body);
       final prayerTimes = PrayerTimes.fromJson(data);
 
-      final placemarks = await Geolocator.placemarkFromCoordinates(lat, lng);
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
       final city = placemarks.isNotEmpty
           ? placemarks.first.locality ?? 'Bilinmeyen'
           : 'Bilinmeyen';
