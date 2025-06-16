@@ -45,7 +45,6 @@ class PrayerService {
       final Map<String, dynamic> data = json.decode(response.body);
       final prayerTimes = PrayerTimes.fromJson(data);
 
-      // Şehir adı almak için reverse geocoding
       final placemarks = await Geolocator.placemarkFromCoordinates(lat, lng);
       final city = placemarks.isNotEmpty
           ? placemarks.first.locality ?? 'Bilinmeyen'

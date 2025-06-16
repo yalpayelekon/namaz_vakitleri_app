@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namaz_vakitleri_app/home_screen.dart';
 import 'package:workmanager/workmanager.dart';
 import 'background_task.dart';
 
@@ -12,5 +13,5 @@ void main() async {
     initialDelay: const Duration(minutes: 1),
     constraints: Constraints(networkType: NetworkType.connected),
   );
-  runApp(const MyApp());
+  runApp(const HomeScreen());
 }
