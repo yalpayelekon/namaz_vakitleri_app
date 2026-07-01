@@ -1,7 +1,14 @@
-import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
+
+import 'city_store.dart';
+import 'prayer_service.dart';
+import 'prayer_times.dart';
+import 'widget_service.dart';
 
 const fetchPrayerTask = "fetchPrayerTask";
 
@@ -9,12 +16,27 @@ Future<void> callbackDispatcher() async {
   Workmanager().executeTask((task, inputData) async {
     if (task == fetchPrayerTask) {
       try {
-        // Konum al
-        final position = await Geolocator.getCurrentPosition();
-        final lat = position.latitude;
-        final lng = position.longitude;
+        final prefs = await SharedPreferences.getInstance();
+        final useDeviceLocation =
+            prefs.getBool(CityStore.useDeviceLocationKey) ?? true;
 
-        // API çağrısı
+        late final double lat;
+        late final double lng;
+        late final String cityName;
+
+        if (!useDeviceLocation &&
+            prefs.containsKey(CityStore.selectedCityLatKey) &&
+            prefs.containsKey(CityStore.selectedCityLngKey)) {
+          lat = prefs.getDouble(CityStore.selectedCityLatKey)!;
+          lng = prefs.getDouble(CityStore.selectedCityLngKey)!;
+          cityName = prefs.getString(CityStore.selectedCityNameKey) ?? 'Şehir';
+        } else {
+          final position = await Geolocator.getCurrentPosition();
+          lat = position.latitude;
+          lng = position.longitude;
+          cityName = await PrayerService.resolveCityName(lat, lng);
+        }
+
         final response = await http.get(
           Uri.parse(
             'https://api.aladhan.com/v1/timings?latitude=$lat&longitude=$lng&method=13',
@@ -22,9 +44,23 @@ Future<void> callbackDispatcher() async {
         );
 
         if (response.statusCode == 200) {
-          final prefs = await SharedPreferences.getInstance();
-          prefs.setString('lastPrayerTimes', response.body); // Local cache
-          prefs.setString('lastUpdateTime', DateTime.now().toIso8601String());
+          final prayerTimes = PrayerTimes.fromJson(json.decode(response.body));
+
+          await WidgetService.savePrayerTimes(
+            fajr: prayerTimes.fajr,
+            dhuhr: prayerTimes.dhuhr,
+            asr: prayerTimes.asr,
+            maghrib: prayerTimes.maghrib,
+            isha: prayerTimes.isha,
+            city: cityName,
+            triggerUpdate: false,
+          );
+
+          await prefs.setString('lastPrayerTimes', response.body);
+          await prefs.setString(
+            'lastUpdateTime',
+            DateTime.now().toIso8601String(),
+          );
         }
       } catch (_) {}
     }

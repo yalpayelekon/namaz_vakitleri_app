@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_2x2_label">Namaz Vakitleri</string>
+    <string name="widget_2x2_description">Şehir ve tüm namaz vakitleri</string>
+</resources>
