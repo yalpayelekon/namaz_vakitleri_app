@@ -2,6 +2,16 @@
 
 Türkiye için konum veya şehir seçimine göre namaz vakitlerini gösteren Flutter uygulaması. Ana ekranda günlük vakitleri listeler; Android ana ekranına 2x2 widget ekleyebilirsiniz.
 
+## İndir (Android)
+
+[![GitHub release](https://img.shields.io/github/v/release/yalpayelekon/namaz_vakitleri_app?label=sürüm)](https://github.com/yalpayelekon/namaz_vakitleri_app/releases/latest)
+
+APK dosyasını [GitHub Releases](https://github.com/yalpayelekon/namaz_vakitleri_app/releases/latest) sayfasından indirebilirsiniz:
+
+**[namaz-vakitleri.apk indir](https://github.com/yalpayelekon/namaz_vakitleri_app/releases/latest/download/namaz-vakitleri.apk)**
+
+> Play Store dışından APK yüklerken cihazınızda "Bilinmeyen kaynaklardan yükleme" izni gerekebilir.
+
 ## Özellikler
 
 - Konuma göre otomatik namaz vakitleri (Aladhan API)
