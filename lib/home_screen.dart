@@ -96,11 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
               color: useDeviceLocation ? null : Colors.white54,
             ),
           ),
-          IconButton(
-            tooltip: 'Şehir seç',
-            onPressed: isLoading ? null : _openCityPicker,
-            icon: const Icon(Icons.location_city),
-          ),
         ],
       ),
       body: isLoading
