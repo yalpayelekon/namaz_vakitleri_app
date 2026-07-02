@@ -9,13 +9,16 @@ import 'data/turkish_cities.dart';
 import 'prayer_times.dart';
 
 class PrayerService {
+  static const _networkTimeout = Duration(seconds: 15);
+  static const _geocodeTimeout = Duration(seconds: 5);
+
   static Future<(PrayerTimes?, String)> fetchPrayerTimes() async {
     try {
       final useDeviceLocation = await CityStore.useDeviceLocation();
       final selectedCity = await CityStore.selectedCity();
 
       if (!useDeviceLocation && selectedCity != null) {
-        return _fetchByCoordinates(
+        return await _fetchByCoordinates(
           selectedCity.latitude,
           selectedCity.longitude,
           cityName: selectedCity.name,
@@ -27,7 +30,7 @@ class PrayerService {
         return (null, 'Konum alınamadı');
       }
 
-      return _fetchByCoordinates(
+      return await _fetchByCoordinates(
         positionResult.latitude,
         positionResult.longitude,
       );
@@ -55,12 +58,16 @@ class PrayerService {
     }
 
     Position? position = await Geolocator.getLastKnownPosition();
-    position ??= await Geolocator.getCurrentPosition(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.medium,
-        timeLimit: Duration(seconds: 15),
-      ),
-    );
+    try {
+      position ??= await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.medium,
+          timeLimit: Duration(seconds: 15),
+        ),
+      ).timeout(_networkTimeout);
+    } catch (_) {
+      return position;
+    }
 
     return position;
   }
@@ -70,11 +77,13 @@ class PrayerService {
     double longitude, {
     String? cityName,
   }) async {
-    final response = await http.get(
-      Uri.parse(
-        'https://api.aladhan.com/v1/timings?latitude=$latitude&longitude=$longitude&method=13',
-      ),
-    );
+    final response = await http
+        .get(
+          Uri.parse(
+            'https://api.aladhan.com/v1/timings?latitude=$latitude&longitude=$longitude&method=13',
+          ),
+        )
+        .timeout(_networkTimeout);
 
     if (response.statusCode != 200) {
       return (null, 'API hatası');
@@ -82,9 +91,11 @@ class PrayerService {
 
     final data = json.decode(response.body) as Map<String, dynamic>;
     final prayerTimes = PrayerTimes.fromJson(data);
-    final city = cityName ?? await resolveCityName(latitude, longitude);
+    final fallbackCity = cityName ?? findNearestCity(latitude, longitude).name;
+    final resolvedCity = await resolveCityName(latitude, longitude)
+        .timeout(_geocodeTimeout, onTimeout: () => fallbackCity);
 
-    return (prayerTimes, city);
+    return (prayerTimes, cityName ?? resolvedCity);
   }
 
   static Future<String> resolveCityName(double latitude, double longitude) async {
@@ -106,7 +117,10 @@ class PrayerService {
     double longitude,
   ) async {
     try {
-      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      final placemarks = await placemarkFromCoordinates(
+        latitude,
+        longitude,
+      ).timeout(_geocodeTimeout);
       if (placemarks.isEmpty) {
         return null;
       }
@@ -136,10 +150,12 @@ class PrayerService {
         'https://nominatim.openstreetmap.org/reverse'
         '?lat=$latitude&lon=$longitude&format=json&accept-language=tr&zoom=10',
       );
-      final response = await http.get(
-        uri,
-        headers: const {'User-Agent': 'namaz_vakitleri_app/1.0'},
-      );
+      final response = await http
+          .get(
+            uri,
+            headers: const {'User-Agent': 'namaz_vakitleri_app/1.0'},
+          )
+          .timeout(_networkTimeout);
 
       if (response.statusCode != 200) {
         return null;

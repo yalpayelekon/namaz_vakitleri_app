@@ -48,6 +48,7 @@ Future<void> callbackDispatcher() async {
 
           await WidgetService.savePrayerTimes(
             fajr: prayerTimes.fajr,
+            sunrise: prayerTimes.sunrise,
             dhuhr: prayerTimes.dhuhr,
             asr: prayerTimes.asr,
             maghrib: prayerTimes.maghrib,

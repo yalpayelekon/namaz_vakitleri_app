@@ -36,7 +36,7 @@ Günlük namaz vakitleri, şehir bilgisi ve günün ayeti/hadisi.
 
 ### Ana ekran widget'ı (2x2)
 
-Şehir adı ve İmsak, Öğle, İkindi, Akşam, Yatsı vakitlerini gösterir. Veriler uygulama açıldığında güncellenir.
+Şehir adı ve İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı vakitlerini gösterir. Veriler uygulama açıldığında güncellenir.
 
 ![Widget](docs/screenshots/widget.png)
 

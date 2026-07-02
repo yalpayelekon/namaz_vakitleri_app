@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (prayerTimes != null) {
       await WidgetService.savePrayerTimes(
         fajr: prayerTimes!.fajr,
+        sunrise: prayerTimes!.sunrise,
         dhuhr: prayerTimes!.dhuhr,
         asr: prayerTimes!.asr,
         maghrib: prayerTimes!.maghrib,

@@ -6,6 +6,7 @@ class WidgetService {
 
   static Future<void> savePrayerTimes({
     required String fajr,
+    required String sunrise,
     required String dhuhr,
     required String asr,
     required String maghrib,
@@ -15,6 +16,7 @@ class WidgetService {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('fajr', fajr);
+    await prefs.setString('sunrise', sunrise);
     await prefs.setString('dhuhr', dhuhr);
     await prefs.setString('asr', asr);
     await prefs.setString('maghrib', maghrib);

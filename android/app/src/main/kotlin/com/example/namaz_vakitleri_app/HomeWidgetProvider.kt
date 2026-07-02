@@ -34,6 +34,7 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.home_widget_layout)
 
     val fajr = WidgetUpdateHelper.getPrefString(prefs, "fajr", "--:--")
+    val sunrise = WidgetUpdateHelper.getPrefString(prefs, "sunrise", "--:--")
     val dhuhr = WidgetUpdateHelper.getPrefString(prefs, "dhuhr", "--:--")
     val asr = WidgetUpdateHelper.getPrefString(prefs, "asr", "--:--")
     val maghrib = WidgetUpdateHelper.getPrefString(prefs, "maghrib", "--:--")
@@ -41,6 +42,7 @@ internal fun updateAppWidget(
     val city = WidgetUpdateHelper.getPrefString(prefs, "city", "Yükleniyor...")
 
     views.setTextViewText(R.id.fajr_text, fajr)
+    views.setTextViewText(R.id.sunrise_text, sunrise)
     views.setTextViewText(R.id.dhuhr_text, dhuhr)
     views.setTextViewText(R.id.asr_text, asr)
     views.setTextViewText(R.id.maghrib_text, maghrib)

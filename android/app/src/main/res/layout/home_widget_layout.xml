@@ -36,14 +36,36 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="İmsak"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="#000000"/>
             <TextView
                 android:id="@+id/fajr_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--"
-                android:textSize="13sp"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Güneş"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/sunrise_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textSize="12sp"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -58,14 +80,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Öğle"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="#000000"/>
             <TextView
                 android:id="@+id/dhuhr_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -80,14 +102,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="İkindi"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="#000000"/>
             <TextView
                 android:id="@+id/asr_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -102,14 +124,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Akşam"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="#000000"/>
             <TextView
                 android:id="@+id/maghrib_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -124,14 +146,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Yatsı"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="#000000"/>
             <TextView
                 android:id="@+id/isha_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
