@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'city_store.dart';
 import 'data/turkish_cities.dart';
 import 'prayer_times.dart';
+import 'widget_service.dart';
 
 class PrayerService {
   static const _networkTimeout = Duration(seconds: 15);
@@ -94,6 +96,10 @@ class PrayerService {
     final fallbackCity = cityName ?? findNearestCity(latitude, longitude).name;
     final resolvedCity = await resolveCityName(latitude, longitude)
         .timeout(_geocodeTimeout, onTimeout: () => fallbackCity);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(WidgetService.lastLatKey, latitude);
+    await prefs.setDouble(WidgetService.lastLngKey, longitude);
 
     return (prayerTimes, cityName ?? resolvedCity);
   }

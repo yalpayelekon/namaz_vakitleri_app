@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'background_task.dart';
 import 'home_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeBackgroundTasks();
   runApp(const MyApp());
 }
 
@@ -13,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Namaz Vakitleri',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomeScreen(), // Scaffold buradan başlatılır
+      home: const HomeScreen(),
     );
   }
 }
